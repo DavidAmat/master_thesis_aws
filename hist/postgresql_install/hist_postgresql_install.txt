@@ -1,0 +1,43 @@
+pipenv install psycopg2
+  144  pipenv install build-essential
+  145  ls
+  146  pipenv install boto3
+  147  amazon-linux-extras install postgresql10 vim epel
+  148  sudo yum install -y postgresql-server postgresql-devel
+  149  /usr/bin/postgresql-setup –-initdb
+  150  systemctl enable postgresql
+  151  systemctl start postgresql
+  152  systemctl status postgresql
+  153  psql
+  154  sudo yum install postgresql
+  155  pipenv install psycopg2
+  156  yum install postgresql-devel
+  157  sudo yum install python-devel
+  158  sudo yum install postgresql-libs
+  159  sudo easy_install psycopg2
+  160  sudo yum groupinstall "Development Tools"
+  161  history
+  162  pipenv install psycopg2
+  163  gcc
+  164  gcc --help
+  165  gcc -pthread
+  166  which python
+  167  python --version
+  168  sudo yum install python37-devel
+  169  which gcc
+  170  exit
+  171  ls
+  172  cd cc
+  173  cd scrap/
+  174  ls
+  175  pipenv shell
+  176  exit
+  177  psql -h tracksurl.czjs6btlvfgd.eu-west-2.rds.amazonaws.com -p 5432 -U david -w qrksjfutivuf1
+  178   . /root/.local/share/virtualenvs/scrap-9ZJEulFg/bin/activate
+  179  psql --help
+  180  psql -h tracksurl.czjs6btlvfgd.eu-west-2.rds.amazonaws.com -p 5432 - U david -W qrksjfutivuf1
+  181  ,
+  182  psql -h tracksurl.czjs6btlvfgd.eu-west-2.rds.amazonaws.com -p 5432 - U david
+  183  pipenv install psycopg2
+  184  cat ~/.aws/config
+  185  history
