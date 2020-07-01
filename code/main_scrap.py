@@ -30,27 +30,15 @@ options.add_argument("--disable-dev-shm-usage")
 
 
 # Input
-index_input = sys.argv[1] # number of the df row of the queries.csv
-index_input = int(index_input)
+first_input = int(sys.argv[1]) # number of the df row to start from the queries.csv
+second_input = int(sys.argv[2]) # number of the df row to finish from the queries.csv
+
+# List of indexes from first to second (both included)
+list_input = list(range(first_input, second_input + 1))
 
 # Read the queries dataframe
 df = pd.read_csv("/home/ec2-user/scrap/data/queries.csv", delimiter = ";")
 df.set_index("index", inplace=True)
-df = df.loc[index_input]
-
-# Get the properties of that row
-artist_name = df.artist_name
-artist_id = df.artist_id
-track_name = df.track_name
-track_id = df.track_id
-
-### -------------------------------------- ###
-#     Input is TRACK_NAME, ARTIST_NAME
-### -------------------------------------- ###
-input_query = [track_name, artist_name]
-qtrack  = track_name
-qartist = artist_name
-queried = qtrack + " " + qartist
 
 ### -------------------------------------- ###
 #           SCRAP FUNCTIONS
@@ -180,116 +168,133 @@ def query_results_to_df(query_results):
     return pd.DataFrame(query_results, columns=cols)
 
 
-### -------------------------------------- ###
-### -------------------------------------- ###
-### -------------------------------------- ###
+### --------------------------------------------------------------- ###
+### --------------------------------------------------------------- ###
+### --------------------------------------------------------------- ###
 
 
-#           CODE
+#           ITERATION over songs
 
 
-### -------------------------------------- ###
-### -------------------------------------- ###
-### -------------------------------------- ###
+### --------------------------------------------------------------- ###
+### --------------------------------------------------------------- ###
+### --------------------------------------------------------------- ###
 
-# -------------------------------------------------------------------
-# OPTIONAL: Check if that pair artist-track already has been done
-# df_current_urls = db_execute_select()
-# mask_artist = df_current_urls["artist_id"] == artist_id
-# mask_track = df_current_urls["track_id"] == track_id
-# shape_result = df_current_urls[mask_artist & mask_track].shape[0]
-# if shape_result > 0:
-#     #sys.exit("Already done") # TO DO
-#     print("Already Done")
-# -------------------------------------------------------------------
-
-
-# -------------------------------------------------------------------#
-### -------------------------------------- ###
-#           SCRAPPING
-### -------------------------------------- ###
-
-# Create the query
-qq = f"https://www.youtube.com/results?hl=es&gl=ES&search_query={queried}"
-
-# Start the browser
+# Before iterating, start the webbrowser
 browser = webdriver.Chrome(options=options)
 
-# Perform query
-browser.get(qq)
+for index_input in list_input:
+    # Take the row of the dataframe
+    df_iter = df.loc[index_input]
 
-# Convert to LXML
-page = BeautifulSoup(browser.page_source, 'lxml')
+    # Get the properties of that row
+    artist_name = df_iter.artist_name
+    artist_id = df_iter.artist_id
+    track_name = df_iter.track_name
+    track_id = df_iter.track_id
 
-# --------------------------------------------------------------------------------------------------- #
-# WRAPPER LIST OF VIDEOS
+    ### -------------------------------------- ###
+    #     Input is TRACK_NAME, ARTIST_NAME
+    ### -------------------------------------- ###
+    input_query = [track_name, artist_name]
+    qtrack  = track_name
+    qartist = artist_name
+    queried = qtrack + " " + qartist
 
-# Take the text wrapper class that has both the title, the artist name and the metadata (visualizations)
-# This returns a list of all the text wrappers
-text_wrapper_list = page.find_all("div", {"class": "text-wrapper style-scope ytd-video-renderer"})
-# --------------------------------------------------------------------------------------------------- #
+    # -------------------------------------------------------------------
+    # OPTIONAL: Check if that pair artist-track already has been done
+    # df_current_urls = db_execute_select()
+    # mask_artist = df_current_urls["artist_id"] == artist_id
+    # mask_track = df_current_urls["track_id"] == track_id
+    # shape_result = df_current_urls[mask_artist & mask_track].shape[0]
+    # if shape_result > 0:
+    #     #sys.exit("Already done") # TO DO
+    #     print("Already Done")
+    # -------------------------------------------------------------------
 
-# --------------------------------------------------------------------------------------------------- #
-# FOR EACH VIDEO WRAPPER
 
-# for loop to navigate to each text wrapper
-for title_wrapper in text_wrapper_list:
+    ### -------------------------------------- ###
+    #           SCRAPPING
+    ### -------------------------------------- ###
+
+    # Create the query
+    qq = f"https://www.youtube.com/results?hl=es&gl=ES&search_query={queried}"
+
+    # Perform query
+    browser.get(qq)
+
+    # Convert to LXML
+    page = BeautifulSoup(browser.page_source, 'lxml')
+
+    # --------------------------------------------------------------------------------------------------- #
+    # WRAPPER LIST OF VIDEOS
+
+    # Take the text wrapper class that has both the title, the artist name and the metadata (visualizations)
+    # This returns a list of all the text wrappers
+    text_wrapper_list = page.find_all("div", {"class": "text-wrapper style-scope ytd-video-renderer"})
+    # --------------------------------------------------------------------------------------------------- #
+
+    # --------------------------------------------------------------------------------------------------- #
+    # FOR EACH VIDEO WRAPPER
+
+    # for loop to navigate to each text wrapper
+    for title_wrapper in text_wrapper_list:
 
 
-    ### ---------  VIDEO TITLE and HREF  ----------- ###
-    video_title_a = title_wrapper.find("a", {"id": "video-title"})
-    yt_title = video_title_a.attrs["title"]
-    yt_href = video_title_a.attrs["href"]
+        ### ---------  VIDEO TITLE and HREF  ----------- ###
+        video_title_a = title_wrapper.find("a", {"id": "video-title"})
+        yt_title = video_title_a.attrs["title"]
+        yt_href = video_title_a.attrs["href"]
 
-    ### ---------  VIDEO ARTIST CHANNEL   ----------- ###
-    channel_a = title_wrapper.find("a", {"class": "yt-simple-endpoint style-scope yt-formatted-string"})
-    yt_artist = channel_a.text
+        ### ---------  VIDEO ARTIST CHANNEL   ----------- ###
+        channel_a = title_wrapper.find("a", {"class": "yt-simple-endpoint style-scope yt-formatted-string"})
+        yt_artist = channel_a.text
 
-    ### ---------  TOTAL VISUALIZATIONS   ----------- ###
-    aria_label_visualizations = str(video_title_a).replace(".","")
-    visualizations = set(re.findall(r"(\d+) visualizaciones", aria_label_visualizations))
-    if len(visualizations):
-        visualizations = list(visualizations)[0]
-        visualizations = int(visualizations)
-    else:
-        visualizations = -1
+        ### ---------  TOTAL VISUALIZATIONS   ----------- ###
+        aria_label_visualizations = str(video_title_a).replace(".","")
+        visualizations = set(re.findall(r"(\d+) visualizaciones", aria_label_visualizations))
+        if len(visualizations):
+            visualizations = list(visualizations)[0]
+            visualizations = int(visualizations)
+        else:
+            visualizations = -1
+            
+        # If visualizations = -1 maybe it's because instead of visualizaciones it is set set "views"
+        # hence views, the milliards are separated by commas
+        aria_label_visualizations = str(video_title_a).replace(",","")
+        find_views = set(re.findall(r"(\d+) views", aria_label_visualizations))
+        if len(find_views):
+            find_views = list(find_views)[0]
+            visualizations = int(find_views)
+        ### ---------  CHECK IF MATCH   ----------- ###
+
+        # Cleaning strings
+        match = match_title(queried, qtrack, qartist, yt_title, yt_artist)
         
-    # If visualizations = -1 maybe it's because instead of visualizaciones it is set set "views"
-    # hence views, the milliards are separated by commas
-    aria_label_visualizations = str(video_title_a).replace(",","")
-    find_views = set(re.findall(r"(\d+) views", aria_label_visualizations))
-    if len(find_views):
-        find_views = list(find_views)[0]
-        visualizations = int(find_views)
-    ### ---------  CHECK IF MATCH   ----------- ###
+        if match:
+            break
 
-    # Cleaning strings
-    match = match_title(queried, qtrack, qartist, yt_title, yt_artist)
-    
+
+
+    ### -------------------------------------- ###
+    #           UPLOAD RESULTS
+    ### -------------------------------------- ###
+
+    # Prepare the variables
+    is_found = 'f'
+    href_video = "NOTFOUND"
+    queried = queried.lower()
+
+    # If a match has been found, convert URL to the full URL adding the href
     if match:
-        break
+        if len(yt_href):
+            is_found = 't'
+            href_video = "https://www.youtube.com" + yt_href
 
+    # Query to insert results with the href
+    query_insert = f"""
+    INSERT INTO results VALUES ('{artist_id}','{track_id}','{is_found}','{queried}','{href_video}',{visualizations})
+    """.strip()
 
-
-### -------------------------------------- ###
-#           UPLOAD RESULTS
-### -------------------------------------- ###
-
-# Prepare the variables
-is_found = 'f'
-href_video = "NOTFOUND"
-queried = queried.lower()
-
-# If a match has been found, convert URL to the full URL adding the href
-if match:
-    if len(yt_href):
-        is_found = 't'
-        href_video = "https://www.youtube.com" + yt_href
-
-# Query to insert results with the href
-query_insert = f"""
-INSERT INTO results VALUES ('{artist_id}','{track_id}','{is_found}','{queried}','{href_video}',{visualizations})
-""".strip()
-
-# Execute query
-result_query = db_execute_insert(query_insert)
+    # Execute query
+    result_query = db_execute_insert(query_insert)
