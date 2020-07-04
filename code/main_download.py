@@ -210,6 +210,9 @@ while True:
         
         # Update the counter of errors
         counter_failed += 1
+
+        # Send status of error
+        send_status(0, track_id, yt_url)
         
         # ------------------- # 
         # Check Ban!
