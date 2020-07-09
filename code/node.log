@@ -1,0 +1,25 @@
+Module;Type;Date;Details;Time;Error Type;Error Details;Error Line
+Node;INFO;2020-07-05 21:41:22;-------------------------------------------------------
+Node;INFO;2020-07-05 21:41:22;Received message. Track_id: 2m25cn629PZ92Dhnk0m39e, URL: https://www.youtube.com/watch?v=6CoaaKLmmlM
+Node;INFO;2020-07-05 21:41:27;Downloaded audio. Track_id: 2m25cn629PZ92Dhnk0m39e, URL: https://www.youtube.com/watch?v=6CoaaKLmmlM
+Node;INFO;2020-07-05 21:41:32;Converted audio. Track_id: 2m25cn629PZ92Dhnk0m39e, URL: https://www.youtube.com/watch?v=6CoaaKLmmlM
+Node;INFO;2020-07-05 21:41:32;Removed previous audio. Track_id: 2m25cn629PZ92Dhnk0m39e, URL: https://www.youtube.com/watch?v=6CoaaKLmmlM
+Node;INFO;2020-07-05 21:41:32;COMPLETED. Track_id: 2m25cn629PZ92Dhnk0m39e, URL: https://www.youtube.com/watch?v=6CoaaKLmmlM
+Node;INFO;2020-07-05 21:41:32;-------------------------------------------------------
+Node;INFO;2020-07-05 21:41:32;Received message. Track_id: 4vbJFkIF8TFCOwqZRI5C2Q, URL: https://www.youtube.com/watch?v=bVJrvVCC_Bk
+Node;INFO;2020-07-05 21:41:33;ERROR: Downloaded audio. Track_id: 4vbJFkIF8TFCOwqZRI5C2Q, URL: https://www.youtube.com/watch?v=bVJrvVCC_Bk, counter: 1,  error: Command '/root/.local/share/virtualenvs/audio-DWZ8joIe/bin/youtube-dl -ci -f "worstaudio" -x --audio-format mp3 https://www.youtube.com/watch?v=bVJrvVCC_Bk --output data/4vbJFkIF8TFCOwqZRI5C2Q_webm.mp3' returned non-zero exit status 1.
+Node;INFO;2020-07-05 21:41:33;-------------------------------------------------------
+Node;INFO;2020-07-05 21:41:33;Received message. Track_id: 5h5T7yQ1qC7KcL8GySSVQx, URL: https://www.youtube.com/watch?v=U9w1OX4bIDU
+Node;INFO;2020-07-05 21:41:36;Downloaded audio. Track_id: 5h5T7yQ1qC7KcL8GySSVQx, URL: https://www.youtube.com/watch?v=U9w1OX4bIDU
+Node;INFO;2020-07-05 21:43:04;Converted audio. Track_id: 5h5T7yQ1qC7KcL8GySSVQx, URL: https://www.youtube.com/watch?v=U9w1OX4bIDU
+Node;INFO;2020-07-05 21:43:04;Removed previous audio. Track_id: 5h5T7yQ1qC7KcL8GySSVQx, URL: https://www.youtube.com/watch?v=U9w1OX4bIDU
+Node;INFO;2020-07-05 21:43:04;COMPLETED. Track_id: 5h5T7yQ1qC7KcL8GySSVQx, URL: https://www.youtube.com/watch?v=U9w1OX4bIDU
+Node;INFO;2020-07-05 21:43:04;-------------------------------------------------------
+Node;INFO;2020-07-05 21:43:04;Received message. Track_id: 2eQKuCrif2IVCI0CZTKumu, URL: https://www.youtube.com/watch?v=TpnyBSknjtM
+Node;INFO;2020-07-05 21:43:06;ERROR: Downloaded audio. Track_id: 2eQKuCrif2IVCI0CZTKumu, URL: https://www.youtube.com/watch?v=TpnyBSknjtM, counter: 1,  error: Command '/root/.local/share/virtualenvs/audio-DWZ8joIe/bin/youtube-dl -ci -f "worstaudio" -x --audio-format mp3 https://www.youtube.com/watch?v=TpnyBSknjtM --output data/2eQKuCrif2IVCI0CZTKumu_webm.mp3' returned non-zero exit status 1.
+Node;INFO;2020-07-05 21:43:06;-------------------------------------------------------
+Node;INFO;2020-07-05 21:43:06;Received message. Track_id: 4AUkDT2MwtAWxcS3NKbFHg, URL: https://www.youtube.com/watch?v=an_7OFR1AnA
+Node;INFO;2020-07-05 21:43:07;ERROR: Downloaded audio. Track_id: 4AUkDT2MwtAWxcS3NKbFHg, URL: https://www.youtube.com/watch?v=an_7OFR1AnA, counter: 2,  error: Command '/root/.local/share/virtualenvs/audio-DWZ8joIe/bin/youtube-dl -ci -f "worstaudio" -x --audio-format mp3 https://www.youtube.com/watch?v=an_7OFR1AnA --output data/4AUkDT2MwtAWxcS3NKbFHg_webm.mp3' returned non-zero exit status 1.
+Node;INFO;2020-07-05 21:43:07;-------------------------------------------------------
+Node;INFO;2020-07-05 21:43:07;Received message. Track_id: 3ov6DXhs8UfsHqoMLz4zO9, URL: https://www.youtube.com/watch?v=WCbjf4W4a0g
+Node;INFO;2020-07-05 21:43:07;BANNED: We have reach 3 errros consecutively. Track_id: 3ov6DXhs8UfsHqoMLz4zO9, URL: https://www.youtube.com/watch?v=WCbjf4W4a0g, error: Command '/root/.local/share/virtualenvs/audio-DWZ8joIe/bin/youtube-dl -ci -f "worstaudio" -x --audio-format mp3 https://www.youtube.com/watch?v=WCbjf4W4a0g --output data/3ov6DXhs8UfsHqoMLz4zO9_webm.mp3' returned non-zero exit status 1.

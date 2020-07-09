@@ -73,6 +73,20 @@ def get_mp3(track_id):
         s3.download_file(bucket_name, path_song_S3 + track_id + ".mp3", "song.mp3")
     return 
 
+def get_size_check(track_id):
+    """
+    Checks if the original audio is more than 10MB of audio, if it is, returns a False
+    """
+    s3 = boto3.resource('s3')
+    key_mp3 = "audio/" + track_id + ".mp3"
+    s3object = s3.Object('tfmdavid',key_mp3)
+    file_size = s3object.content_length #size in bytes
+    size_megas = file_size / 1000000
+    if size_megas > 10:
+        return False
+    else: 
+        return True
+
 def mp3_to_wav():
     """
     Convert mp3 to wav
@@ -205,6 +219,12 @@ while True:
     # If no available messages exit the loop
     if track_id is False:
         break
+
+    # If the size of the audio is > 10MB, continue
+    if get_size_check(track_id) is False:
+        # Delete that message
+        delete_message(id_message)
+        continue
         
     # #####################################
     # Create .wav
